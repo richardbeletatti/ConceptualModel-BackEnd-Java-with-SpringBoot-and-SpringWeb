@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.beletattirichard.cursomc.DTO.CategoriaDTO;
-import com.beletattirichard.cursomc.domain.Categoria;
 import com.beletattirichard.cursomc.domain.Pedido;
 import com.beletattirichard.cursomc.services.PedidoService;
 
