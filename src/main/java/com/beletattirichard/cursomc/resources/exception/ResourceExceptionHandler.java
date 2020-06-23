@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.beletattirichard.cursomc.exception.AuthorizationException;
 import com.beletattirichard.cursomc.exception.DataIntegrityException;
 import com.beletattirichard.cursomc.exception.ObjectNotFoundException;
 import com.beletattirichard.cursomc.exception.ValidationError;
@@ -36,7 +37,7 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
 
-		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(),"Erro de validacao",
+		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de validacao",
 				System.currentTimeMillis());
 		for (FieldError x : e.getBindingResult().getFieldErrors()) {
 			err.addErrors(x.getField(), x.getDefaultMessage());
@@ -45,4 +46,10 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+
+		StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+	}
 }
